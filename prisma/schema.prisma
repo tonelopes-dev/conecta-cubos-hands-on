@@ -7,53 +7,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model lecture {
-  id           Int            @id @default(autoincrement())
-  title        String         @db.VarChar(255)
-  starttime    DateTime?      @db.Time(6)
-  endtime      DateTime?      @db.Time(6)
-  lecturer_id  Int?
-  lecturer     lecturer?      @relation(fields: [lecturer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  meet_lecture meet_lecture[]
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  token     String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Meet Meet[]
 }
 
-model lecturer {
-  id        Int       @id @default(autoincrement())
-  firstname String    @db.VarChar(255)
-  lastname  String    @db.VarChar(255)
-  github    String    @db.VarChar(255)
-  createdat DateTime? @default(now()) @db.Timestamp(6)
-  email     String?   @db.VarChar(255)
-  lecture   lecture[]
+model Manager {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(255)
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Meet Meet[]
 }
 
-model manager {
-  id        String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  username  String    @unique @db.VarChar(255)
-  firstname String    @db.VarChar(255)
-  lastname  String    @db.VarChar(255)
-  github    String    @db.VarChar(255)
-  createdat DateTime? @default(now()) @db.Timestamp(6)
-  email     String?   @db.VarChar(255)
-  meet      meet[]
+model Meet {
+  id                Int      @id @default(autoincrement())
+  managerId         Int
+  adminId           Int
+  name              String
+  description       String
+  dateTime          DateTime
+  link              String?
+  address           String?
+  zipcode           String
+  city              String
+  stateOfCity       String
+  complement        String?
+  lectureTime       DateTime
+  listLectureEmails String
+  statusEvent       String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  manager Manager @relation(fields: [managerId], references: [id])
+  admin   Admin   @relation(fields: [adminId], references: [id])
+
+  Lecture Lecture[]
 }
 
-model meet {
-  id           Int            @id @default(autoincrement())
-  name         String?        @db.VarChar(255)
-  date         DateTime?      @db.Timestamp(6)
-  place        String?        @db.VarChar(255)
-  link         String?        @db.VarChar(255)
-  createdat    DateTime?      @default(now()) @db.Timestamp(6)
-  manager_id   String?        @db.Uuid
-  manager      manager?       @relation(fields: [manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  meet_lecture meet_lecture[]
+model Lecture {
+  id              Int           @id @default(autoincrement())
+  meetId          Int
+  speakerName     String
+  speakerLinkedIn String
+  speakerEmail    String
+  speakerAbout    String
+  title           String
+  description     String
+  timeDate        DateTime
+  statusLecture   StatusLecture
+
+  meet Meet @relation(fields: [meetId], references: [id])
 }
 
-model meet_lecture {
-  id         Int      @id @default(autoincrement())
-  meet_id    Int?
-  lecture_id Int?
-  lecture    lecture? @relation(fields: [lecture_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  meet       meet?    @relation(fields: [meet_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+enum StatusLecture {
+  PENDING_APPROVAL
+  CANCELED
+  IN_PROGRESS
+  COMPLETED
 }
