@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ApiManagerModule } from './api-manager/api-manager.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), ApiManagerModule],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [ConfigModule.forRoot(), ApiManagerModule],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}
