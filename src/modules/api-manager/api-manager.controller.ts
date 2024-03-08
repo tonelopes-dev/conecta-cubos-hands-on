@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { MeetIdParamDto } from './dto/meetDto';
 import { ManagerIdParamDto } from './dto/managerDto';
 import { FindMeetsByManagersService } from './services/find-meets-by-manager.service';
@@ -7,6 +7,7 @@ import { ConfirmLectureService } from './services/confirm-lecture.service';
 import { IParamLecture } from './dto/param-lecture';
 import { DesconfirmLectureService } from './services/desconfirm-lecture.service';
 import { DesconfirmLecture } from './dto/desconfirm-lecture.dto';
+import { ShowLectureService } from './services/show-lecture.service';
 
 @Controller('api-manager')
 export class ApiManagerController {
@@ -15,6 +16,7 @@ export class ApiManagerController {
         private readonly detailMeetByIdService: DetailMeetByIdService,
         private readonly confirmLectureService: ConfirmLectureService,
         private readonly desconfirmLectureService: DesconfirmLectureService,
+        private readonly showLectureService: ShowLectureService,
     ) {}
 
     @Get('/meet/manager/:id')
@@ -48,5 +50,13 @@ export class ApiManagerController {
             Number(param.lectureId),
             reason,
         );
+    }
+
+    @Get('/meet/:meetId/lecture')
+    async showLectures(
+        @Param() param: IParamLecture,
+        @Query('status') status: string,
+    ) {
+        return this.showLectureService.execute(param.meetId, status);
     }
 }
