@@ -6,6 +6,9 @@ import { DetailMeetByIdService } from './services/detail-meet-by-id.service';
 import { ConfirmLectureService } from './services/confirm-lecture.service';
 import { MailService } from 'src/providers/mailer.service';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { DesconfirmLecture } from './dto/desconfirm-lecture.dto';
+import { APP_PIPE } from '@nestjs/core';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Module({
     controllers: [ApiManagerController],
@@ -15,6 +18,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
         FindMeetsByManagersService,
         DetailMeetByIdService,
         ConfirmLectureService,
+        DesconfirmLecture,
+        { provide: APP_PIPE, useClass: ZodValidationPipe },
     ],
     imports: [
         MailerModule.forRoot({
