@@ -1,5 +1,5 @@
 import { sign, decode, JwtPayload } from 'jsonwebtoken';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../providers/prisma.service';
 
 console.log('Starting seed script for populating the database...\n');
 
@@ -76,14 +76,14 @@ async function createMeet() {
 
 async function createLecture() {
     try {
-        const { id: meet_id } = await prisma.meet.findFirst();
+        const { id } = await prisma.meet.findFirst();
 
         const lecture1 = await prisma.lecture.create({
             data: {
-                meet_id,
+                meet_id: id,
                 speaker_name: 'Silvio Santos',
                 speaker_about: 'O dono do baú',
-                speaker_email: 'silviao@milhao.sbt',
+                speaker_email: 'alan360gabriel@gmail.com',
                 title: 'Quem quer dinheiro?',
                 description: 'Como fazer aviõezinhos de 100 reais',
                 datetime: new Date('2024-05-10T12:00:00Z'),
@@ -93,7 +93,7 @@ async function createLecture() {
 
         const lecture2 = await prisma.lecture.create({
             data: {
-                meet_id,
+                meet_id: id,
                 speaker_name: 'Jeff Bezos',
                 speaker_about: 'Amazon King',
                 speaker_email: 'jeff@bezos.aws',
@@ -113,9 +113,9 @@ async function createLecture() {
 }
 
 async function main(): Promise<void> {
-    createManager();
-    createMeet();
-    createLecture();
+    await createManager();
+    await createMeet();
+    await createLecture();
 }
 
 main();

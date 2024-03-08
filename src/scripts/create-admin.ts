@@ -1,6 +1,6 @@
 import * as readline from 'readline';
 import { sign } from 'jsonwebtoken';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../providers/prisma.service';
 
 console.log('Creating admin...');
 
