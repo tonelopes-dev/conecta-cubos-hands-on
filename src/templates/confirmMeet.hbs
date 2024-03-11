@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmação de palestra!</title>
+  </head>
+  <body>
+    <h1
+      style="
+        border: solid;
+        border-color: black;
+        background-color: brown;
+        color: aliceblue;
+      "
+    >
+      Palestra confirmada!
+    </h1>
+    <br />
+    <div style='background: #f8f288'>
+        <h3>
+        Olá, <span style="color: blue">{{speaker_name}}!</span>!</h3>
+        </br>
+        <h4>Sua palestra {{title}}, cadastrada no evento {{meet_title}}, foi confirmada, veja os detalhes a
+        seguir:
+        </h4>
+        <br />
+        <ul>
+            <li>Palestrante: {{speaker_name}}</li>
+            <li>Sobre: {{speaker_about}}</li>
+            <li>LinkedIn: {{speaker_linkedin}}</li>
+            <li>Tema: {{title}}</li>
+            <li>Descriçao: {{description}}</li>
+            <li>Data: {{datetime}}</li>
+        </ul>
+        <h4> Clique <a href='https://www.google.com.br/search?q=html'>aqui</a> para acessar o evento!<h4>
+    </div>
+  </body>
+  <footer>
+    <p
+      style="
+        border-style: dotted;
+        border-color: black;
+        background-color: blue;
+        flex: 100%;
+        position: fixed;
+        width: 100%;
+        color: azure;
+        text-align: center;
+      "
+    >
+      2024
+    </p>
+  </footer>
+</html>

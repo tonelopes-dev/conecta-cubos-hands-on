@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model lecture {
+  id                  Int       @id @default(autoincrement())
+  meet_id             String?   @db.Uuid
+  speaker_name        String    @db.VarChar(255)
+  speaker_linkedin    String?   @db.VarChar(255)
+  speaker_about       String    @db.VarChar(255)
+  speaker_email       String    @db.VarChar(255)
+  title               String    @db.VarChar(255)
+  description         String    @db.VarChar(255)
+  datetime            DateTime? @db.Timestamp(6)
+  status              status?
+  created_at          DateTime? @default(now()) @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+  iscancelled         Boolean?  @default(false)
+  cancellation_reason String?   @db.VarChar(255)
+  meet                meet?     @relation(fields: [meet_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model manager {
+  id                    String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  admin_id              String?   @db.Uuid
+  name                  String    @db.VarChar(255)
+  email                 String?   @db.VarChar(255)
+  isactive              Boolean?  @default(true)
+  created_at            DateTime? @default(now()) @db.Timestamp(6)
+  updated_at            DateTime? @db.Timestamp(6)
+  token                 String?   @db.VarChar(255)
+  token_expiration_time DateTime? @db.Timestamp(6)
+  admin                 admin?    @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  meet                  meet[]
+}
+
+model meet {
+  id                 String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  admin_id           String?   @db.Uuid
+  manager_id         String?   @db.Uuid
+  title              String    @db.VarChar(255)
+  summary            String    @db.VarChar(255)
+  datetime           DateTime  @db.Timestamp(6)
+  link               String?   @db.VarChar(255)
+  image_link         String?   @db.VarChar(255)
+  address            String    @db.VarChar(255)
+  address_number     String?   @db.VarChar(255)
+  address_zip        String    @db.VarChar(255)
+  address_city       String    @db.VarChar(255)
+  address_state      String    @db.VarChar(255)
+  address_district   String    @db.VarChar(255)
+  address_complement String?   @db.VarChar(255)
+  start_time         DateTime  @db.Timestamp(6)
+  end_time           DateTime  @db.Timestamp(6)
+  created_at         DateTime? @default(now()) @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+  lecture            lecture[]
+  admin              admin?    @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  manager            manager?  @relation(fields: [manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model admin {
+  id       String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  username String    @unique @db.VarChar(255)
+  email    String    @unique @db.VarChar(255)
+  token    String    @db.VarChar(255)
+  manager  manager[]
+  meet     meet[]
+}
+
+enum status {
+  pending
+  confirmed
+  cancelled
+}
