@@ -37,7 +37,7 @@ export class ApiManagerController {
   }
 
   @Get('/meet/detail/:id')
-  @Roles(['admin', 'manager'])
+  @Roles(['admin', 'manager', 'visitor'])
   async detailMeetById(
     @Param()
     param: MeetIdParamDto,

@@ -19,7 +19,11 @@ export class AuthMiddleware implements NestMiddleware {
     //console.log('extracted token:', token);
 
     if (!token) {
-      throw new UnauthorizedException();
+      req.body.user = { role: 'visitor' };
+
+      console.log('got a visitor');
+
+      return next();
     }
 
     try {
@@ -36,7 +40,6 @@ export class AuthMiddleware implements NestMiddleware {
         const { token: _, ...returnedAdmin } = admin;
         req.body.user = { role: 'admin', ...returnedAdmin };
         console.log('got a admin');
-
 
         return next();
       }
@@ -55,12 +58,7 @@ export class AuthMiddleware implements NestMiddleware {
 
         return next();
       }
-
-      req.body.user = { role: 'user' };
-
-      console.log('got a visitor');
-
-      return next();
+      
     } catch {
       throw new UnauthorizedException();
     }
