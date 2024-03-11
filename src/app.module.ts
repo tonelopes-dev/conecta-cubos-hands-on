@@ -1,14 +1,24 @@
-import { Module } from '@nestjs/common';
-import { ApiManagerModule } from './modules/api-manager/api-manager.module';
-import { ConfigModule } from '@nestjs/config';
-
-import { AuthModule } from './auth/github/auth.module';
-import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { ApiManagerModule } from './modules/api-manager/api-manager.module';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { AuthMiddleware } from './auth/auth-jwt/auth.middleware';
+import { PrismaService } from './providers/prisma.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-    imports: [ConfigModule.forRoot(), AuthModule, ApiManagerModule],
-    controllers: [AppController],
-    providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    JwtModule.register({ secret: process.env.JWT_SECRET }),
+    ApiManagerModule,
+    ApiManagerModule,
+  ],
+  controllers: [AppController],
+  providers: [PrismaService, AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}
