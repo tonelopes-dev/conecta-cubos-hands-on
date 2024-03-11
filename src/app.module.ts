@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ApiManagerModule } from './modules/api-manager/api-manager.module';
 //import { APP_GUARD } from '@nestjs/core';
 //import { RolesGuard } from './auth/roles.guard';
-import { AuthMiddleware } from './auth/auth.middleware';
+import { AuthMiddleware } from './auth/auth-jwt/auth.middleware';
 import { PrismaService } from './providers/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
 
