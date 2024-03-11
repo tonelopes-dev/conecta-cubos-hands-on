@@ -16,14 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
     ApiManagerModule,
   ],
   controllers: [AppController],
-  providers: [
-    PrismaService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
-    AppService,
-  ],
+  providers: [PrismaService, AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
