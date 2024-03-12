@@ -53,7 +53,7 @@ export class DesconfirmLectureService {
       await this.mailService.sendMail(lecture.speaker_email, subject, mail);
 
       await this.prisma.lecture.update({
-        data: { status: 'cancelled' },
+        data: { status_lecture: 'cancelled' },
         where: { id: lectureId, meet_id: meetId },
       });
     } catch (error) {
