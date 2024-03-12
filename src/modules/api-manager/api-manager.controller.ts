@@ -16,8 +16,8 @@ import { IParamLecture } from './dto/param-lecture';
 import { DesconfirmLectureService } from './services/desconfirm-lecture.service';
 import { DesconfirmLecture } from './dto/desconfirm-lecture.dto';
 import { ShowLectureService } from './services/show-lecture.service';
-import { Roles } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/auth-jwt/roles.decorator';
+import { RolesGuard } from 'src/auth/auth-jwt/roles.guard';
 
 @UseGuards(RolesGuard)
 @Controller('api-manager')
