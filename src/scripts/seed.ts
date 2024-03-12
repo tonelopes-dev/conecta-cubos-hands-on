@@ -87,7 +87,7 @@ async function createLecture() {
         title: 'Quem quer dinheiro?',
         description: 'Como fazer aviõezinhos de 100 reais',
         datetime: new Date('2024-05-10T12:00:00Z'),
-        status: 'pending',
+        status_lecture: 'pending',
       },
     });
 
@@ -100,7 +100,7 @@ async function createLecture() {
         title: 'Start selling today!',
         description: 'From zero to a million in one year.',
         datetime: new Date('2024-05-10T12:30:00Z'),
-        status: 'pending',
+        status_lecture: 'pending',
       },
     });
 
