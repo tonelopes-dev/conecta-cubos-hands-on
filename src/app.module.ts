@@ -7,12 +7,18 @@ import { AuthMiddleware } from './auth/auth-jwt/auth.middleware';
 import { PrismaService } from './providers/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
 
+import { AuthGihubModule } from './auth/github/auth-github.module';
+
+//import { APP_GUARD } from '@nestjs/core';
+//import { RolesGuard } from './auth/roles.guard';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
     ApiManagerModule,
+    AuthGihubModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
