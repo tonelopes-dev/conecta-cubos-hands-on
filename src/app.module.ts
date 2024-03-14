@@ -6,18 +6,24 @@ import { ApiManagerModule } from './modules/api-manager/api-manager.module';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { PrismaService } from './providers/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
+import { ApiAdminModule } from './modules/api-admin/api-admin.module';
+import { ApiManagerController } from './modules/api-manager/api-manager.controller';
+import { ApiAdminController } from './modules/api-admin/api-admin.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
+    ApiAdminModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('*');
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(ApiManagerController, ApiAdminController);
   }
 }

@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/mapped-types';
-import { IsUUID, IsNotEmpty } from 'class-validator';
+import { IsUUID, IsNotEmpty, isNotEmpty, IsEmail } from 'class-validator';
 
 export class ManagerDto {
   id: string;
@@ -14,11 +14,14 @@ export class ManagerDto {
   role?: string;
 }
 
-export class CreateManagerDto extends PickType(ManagerDto, [
-  'name',
-  'email',
-  'admin_id',
-] as const) {}
+export class CreateManagerDto implements Partial<ManagerDto> {
+  @IsNotEmpty()
+  name: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
 
 export class ManagerIdParamDto implements Partial<ManagerDto> {
   @IsUUID()

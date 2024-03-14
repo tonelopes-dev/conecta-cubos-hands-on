@@ -13,7 +13,7 @@ export class ShowLectureService {
       });
 
       if (!meet) {
-        throw new HttpException('meet not found.', HttpStatus.NOT_FOUND);
+        return new HttpException('meet not found.', HttpStatus.NOT_FOUND);
       }
 
       if (statusLecture) {
@@ -26,7 +26,7 @@ export class ShowLectureService {
       return meet;
     } catch (error) {
       console.log(error);
-      throw new HttpException(
+      return new HttpException(
         'Internal Server Error',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

@@ -7,8 +7,8 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { MeetIdParamDto } from './dto/meetDto';
-import { ManagerIdParamDto } from './dto/managerDto';
+import { MeetIdParamDto } from './dto/meet.dto';
+import { ManagerIdParamDto } from './dto/manager.dto';
 import { FindMeetsByManagersService } from './services/find-meets-by-manager.service';
 import { DetailMeetByIdService } from './services/detail-meet-by-id.service';
 import { ConfirmLectureService } from './services/confirm-lecture.service';
@@ -42,7 +42,7 @@ export class ApiManagerController {
     @Param()
     param: MeetIdParamDto,
   ) {
-    return this.detailMeetByIdService.execute(param);
+    return this.detailMeetByIdService.execute(param.id);
   }
 
   @Roles(['admin', 'manager'])
