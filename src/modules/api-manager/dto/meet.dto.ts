@@ -38,10 +38,10 @@ export class CreateMeetDto implements Partial<MeetDto> {
   datetime: Date;
 
   @IsOptional()
-  link?: string;
+  link: string;
 
   @IsOptional()
-  image_link?: string;
+  image_link: string;
 
   @IsNotEmpty()
   address: string;
@@ -68,5 +68,5 @@ export class CreateMeetDto implements Partial<MeetDto> {
   start_time: Date;
 
   @IsNotEmpty()
-  end_time?: Date;
+  end_time: Date;
 }

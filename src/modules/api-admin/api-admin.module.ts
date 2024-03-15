@@ -7,6 +7,7 @@ import { ActivateManagerService } from './services/activate-manager.service';
 import { CreateMeetService } from './services/create-meet.service';
 import { MailService } from 'src/providers/mailer.service';
 import { DeleteMeetService } from './services/delete-meet.service';
+import { StorageService } from 'src/providers/storage.service';
 
 @Module({
   controllers: [ApiAdminController],
@@ -18,6 +19,7 @@ import { DeleteMeetService } from './services/delete-meet.service';
     DeactivateManagerService,
     CreateMeetService,
     DeleteMeetService,
+    StorageService,
   ],
 })
 export class ApiAdminModule {}

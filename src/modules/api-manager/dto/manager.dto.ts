@@ -1,5 +1,4 @@
-import { PickType } from '@nestjs/mapped-types';
-import { IsUUID, IsNotEmpty, isNotEmpty, IsEmail } from 'class-validator';
+import { IsUUID, IsNotEmpty, IsEmail } from 'class-validator';
 
 export class ManagerDto {
   id: string;

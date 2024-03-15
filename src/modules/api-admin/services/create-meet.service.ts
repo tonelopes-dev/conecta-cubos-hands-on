@@ -1,21 +1,24 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Request } from 'express';
 import { readFile } from 'fs/promises';
 import { compile } from 'handlebars';
 import { CreateMeetDto } from 'src/modules/api-manager/dto/meet.dto';
 import { MailService } from 'src/providers/mailer.service';
 import { PrismaService } from 'src/providers/prisma.service';
+import { StorageService } from 'src/providers/storage.service';
 
 @Injectable()
 export class CreateMeetService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly mailerService: MailService,
+    private readonly storageService: StorageService,
   ) {}
 
-  async execute(manager_id: string, data: CreateMeetDto, req: Request) {
-    const { user, ...meetData } = req.body;
-
+  async execute(
+    manager_id: string,
+    data: CreateMeetDto,
+    file: Express.Multer.File,
+  ) {
     try {
       const meetExists = await this.prismaService.meet.findFirst({
         where: { manager_id },
@@ -38,11 +41,24 @@ export class CreateMeetService {
 
       const createdMeet = await this.prismaService.meet.create({
         data: {
+          ...data,
           manager_id,
-          admin_id: user.id,
-          datetime: new Date(meetData.datetime),
-          ...meetData,
+          admin_id: manager.admin_id,
+          datetime: new Date(data.datetime),
         },
+      });
+
+      //multer
+      const savedImage = await this.storageService.storageImage(
+        createdMeet.id,
+        file.originalname,
+        file.buffer,
+        file.mimetype,
+      );
+
+      await this.prismaService.meet.update({
+        where: { id: createdMeet.id },
+        data: { image_link: `${process.env.S3_LINK}${savedImage.Location}` },
       });
 
       const mailTemplate = (
@@ -57,6 +73,7 @@ export class CreateMeetService {
         token: manager.token,
         id: createdMeet.id,
         datetime: createdMeet.datetime,
+        image: `${process.env.S3_LINK}${savedImage.Location}`,
       };
 
       const mail = compile(mailTemplate)(dynamicVariables);

@@ -41,8 +41,8 @@ model manager {
 
 model meet {
   id                 String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  admin_id           String?   @db.Uuid
-  manager_id         String?   @db.Uuid
+  admin_id           String    @db.Uuid
+  manager_id         String    @db.Uuid
   title              String    @db.VarChar(255)
   summary            String    @db.VarChar(255)
   datetime           DateTime  @db.Timestamp(6)

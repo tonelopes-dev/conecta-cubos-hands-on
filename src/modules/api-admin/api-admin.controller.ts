@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { CreateManagerService } from './services/create-manager.service';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -22,6 +24,7 @@ import { ActivateManagerService } from './services/activate-manager.service';
 import { CreateMeetDto, MeetIdParamDto } from '../api-manager/dto/meet.dto';
 import { CreateMeetService } from './services/create-meet.service';
 import { DeleteMeetService } from './services/delete-meet.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @UseGuards(RolesGuard)
 @Controller('api-admin')
@@ -57,12 +60,13 @@ export class ApiAdminController {
 
   @Roles(['admin'])
   @Post('meet/create/:id')
+  @UseInterceptors(FileInterceptor('file'))
   createMeet(
     @Param() param: ManagerIdParamDto,
     @Body() createMeetDto: CreateMeetDto,
-    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.createMeetService.execute(param.id, createMeetDto, req);
+    return this.createMeetService.execute(param.id, createMeetDto, file);
   }
 
   @Roles(['admin'])
