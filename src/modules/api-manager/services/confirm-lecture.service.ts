@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/providers/prisma.service';
-import { readFile } from 'fs/promises';
 // import path from 'path';
+import { readFile } from 'fs/promises';
 import { compile } from 'handlebars';
 import { MailService } from 'src/providers/mailer.service';
 
@@ -12,7 +12,7 @@ export class ConfirmLectureService {
     private mailService: MailService,
   ) {}
 
-  async execute(meetId: string, lectureId: number) {
+  async execute(meetId: string, lectureId: string) {
     try {
       const meet = await this.prisma.meet.findUnique({
         where: { id: meetId },

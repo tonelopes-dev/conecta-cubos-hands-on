@@ -11,7 +11,7 @@ export class DesconfirmLectureService {
     private mailService: MailService,
   ) {}
 
-  async execute(meetId: string, lectureId: number, reason?: string) {
+  async execute(meetId: string, lectureId: string, reason?: string) {
     try {
       const meet = await this.prisma.meet.findUnique({
         where: { id: meetId },
@@ -53,7 +53,7 @@ export class DesconfirmLectureService {
       await this.mailService.sendMail(lecture.speaker_email, subject, mail);
 
       await this.prisma.lecture.update({
-        data: { status_lecture: 'cancelled' },
+        data: { status_lecture: 'canceled' },
         where: { id: lectureId, meet_id: meetId },
       });
     } catch (error) {
