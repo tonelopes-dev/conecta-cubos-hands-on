@@ -1,0 +1,35 @@
+<html lang='pt-BR'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Nova Palestra Cadastrada</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; padding: 0; color:
+      #333; } .container { max-width: 600px; margin: 0 auto; background:
+      #f8f8f8; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px
+      rgba(0,0,0,0.1); } h1 { color: #0056b3; } p { line-height: 1.6; }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Nova Palestra Cadastrada!</h1>
+      <p>Olá {{manager_name}},</p>
+      <p>Uma nova palestra foi cadastrada para o evento "{{meet_name}}". Aqui
+        estão os detalhes:</p>
+      <ul>
+        <li><strong>Nome da Palestra:</strong> {{lecture_title}}</li>
+        <li><strong>Nome do Palestrante:</strong> {{speaker_name}}</li>
+        <li><strong>Data e Hora:</strong> {{lecture_date_time}}</li>
+        <li><strong>Descrição da Palestra:</strong> {{lecture_description}}</li>
+      </ul>
+      <p>Por favor, acesse o painel do organizador para mais detalhes e para
+        gerenciar a aprovação desta palestra.</p>
+
+      <p><a href='{{link_meet_lectures}}'>Clique aqui para ver todas as
+          palestras desse evento</a></p>
+
+      <p>Atenciosamente,</p>
+      <p>A equipe do {{platform_name}}</p>
+    </div>
+  </body>
+</html>

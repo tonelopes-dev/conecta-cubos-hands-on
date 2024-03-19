@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Query,
+  Render,
   UseGuards,
 } from '@nestjs/common';
 import { MeetIdParamDto } from './dto/meetDto';
@@ -37,21 +38,21 @@ export class ApiManagerController {
   }
 
   @Get('/meet/detail/:id')
-  @Roles(['admin', 'manager', 'visitor'])
+  // @Roles(['admin', 'manager', 'visitor'])
+  @Render('events/event-detail')
   async detailMeetById(
     @Param()
     param: MeetIdParamDto,
   ) {
-    return this.detailMeetByIdService.execute(param);
+    const meetDetail = await this.detailMeetByIdService.execute(param);
+    console.log(meetDetail);
+    return meetDetail;
   }
 
   @Roles(['admin', 'manager'])
   @Patch('/meet/:meetId/lecture/:lectureId/confirm')
   async confirmLecture(@Param() param: IParamLecture) {
-    return this.confirmLectureService.execute(
-      param.meetId,
-      Number(param.lectureId),
-    );
+    return this.confirmLectureService.execute(param.meetId, param.lectureId);
   }
 
   @Roles(['admin', 'manager'])
@@ -62,12 +63,12 @@ export class ApiManagerController {
   ) {
     return this.desconfirmLectureService.execute(
       param.meetId,
-      Number(param.lectureId),
+      param.lectureId,
       reason,
     );
   }
 
-  @Roles(['admin', 'manager'])
+  // @Roles(['admin', 'manager'])
   @Get('/meet/:meetId/lecture')
   async showLectures(
     @Param() param: IParamLecture,

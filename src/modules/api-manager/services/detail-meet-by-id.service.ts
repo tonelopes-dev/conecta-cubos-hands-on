@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/providers/prisma.service';
 import { MeetIdParamDto } from '../dto/meetDto';
+import { PrismaService } from 'src/providers/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class DetailMeetByIdService {
@@ -43,6 +43,7 @@ export class DetailMeetByIdService {
         link: meet.link,
         start_time: meet.start_time,
         end_time: meet.end_time,
+        meet_status: meet.status_meet,
       };
     } catch (error) {
       throw new HttpException(

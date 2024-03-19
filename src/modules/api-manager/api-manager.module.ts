@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
-import { ApiManagerController } from './api-manager.controller';
-import { PrismaService } from 'src/providers/prisma.service';
-import { FindMeetsByManagersService } from './services/find-meets-by-manager.service';
-import { DetailMeetByIdService } from './services/detail-meet-by-id.service';
-import { ConfirmLectureService } from './services/confirm-lecture.service';
-import { MailService } from 'src/providers/mailer.service';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { DesconfirmLecture } from './dto/desconfirm-lecture.dto';
 import { APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { DesconfirmLectureService } from './services/desconfirm-lecture.service';
+import { MailerModule } from '@nestjs-modules/mailer';
+
+import { MailService } from 'src/providers/mailer.service';
+import { PrismaService } from 'src/providers/prisma.service';
+
+import { ApiManagerController } from './api-manager.controller';
+
 import { ShowLectureService } from './services/show-lecture.service';
+import { ConfirmLectureService } from './services/confirm-lecture.service';
+import { DetailMeetByIdService } from './services/detail-meet-by-id.service';
+import { DesconfirmLectureService } from './services/desconfirm-lecture.service';
+import { FindMeetsByManagersService } from './services/find-meets-by-manager.service';
+
+import { DesconfirmLecture } from './dto/desconfirm-lecture.dto';
 
 @Module({
   controllers: [ApiManagerController],

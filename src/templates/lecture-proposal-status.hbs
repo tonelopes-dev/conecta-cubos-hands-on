@@ -1,0 +1,35 @@
+<html lang='pt-BR'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Proposta Recebida</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; padding: 0; color:
+      #333; } .container { max-width: 600px; margin: 0 auto; background:
+      #f8f8f8; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px
+      rgba(0,0,0,0.1); } h1 { color: #0056b3; } p { line-height: 1.6; }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Proposta de Palestra Recebida!</h1>
+      <p>Olá {{speaker_name}},</p>
+      <p>Estamos felizes em informar que a sua proposta de palestra "{{lecture_title}}"
+        para o evento "{{meet_name}}" foi recebida com sucesso pelo organizador.</p>
+      <p>O organizador está no processo de
+        <strong>revisão das propostas</strong>
+        recebidas e
+        <strong>você será notificado por email</strong>
+        assim que uma decisão for tomada. Agradecemos a sua paciência e
+        compreensão.</p>
+      <p>Além disso, você pode acompanhar o status da sua proposta acessando o
+        link abaixo:</p>
+      <p><a href='{{status_link}}'>Clique aqui para acompanhar o status da sua
+          proposta</a></p>
+      <p>Se tiver alguma dúvida ou precisar de mais informações, sinta-se à
+        vontade para entrar em contato conosco.</p>
+      <p>Atenciosamente,</p>
+      <p>A equipe do {{platform_name}}</p>
+    </div>
+  </body>
+</html>
