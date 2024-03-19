@@ -48,12 +48,16 @@ async function createMeet() {
     const { id: admin_id } = await prisma.admin.findFirst();
     const { id: manager_id } = await prisma.manager.findFirst();
 
-    const meet = await prisma.meet.create({
+    const meet1 = await prisma.meet.create({
       data: {
         admin_id,
         manager_id,
+        image_link:
+          'https://presidenteicguadalajara.com/wp-content/uploads/2022/01/mejores-hoteles-guadalajara-salones-eventos.jpg',
         title: '3 caminhos para se tornar um milionário!',
-        summary: 'Comece a ganhar dinheiro e ganhe mais!',
+        summary:
+          'Neste evento, você descobrirá os segredos dos milionários e aprenderá estratégias comprovadas para aumentar sua renda...',
+        link: 'https://exemplo.com/evento1',
         datetime: new Date('2024-05-10T12:00:00Z'),
         address: 'Rua dos Bobos',
         address_number: '0',
@@ -63,10 +67,55 @@ async function createMeet() {
         address_district: 'Zeboninho',
         start_time: new Date('2024-05-10T12:00:00Z'),
         end_time: new Date('2024-05-10T12:30:00Z'),
+        status_meet: 'pending',
+      },
+    });
+    const meet2 = await prisma.meet.create({
+      data: {
+        admin_id,
+        manager_id,
+        image_link:
+          'https://i0.wp.com/grupopresidente.com.mx/wp-content/uploads/2022/10/salones-eventos-guadalajara-empresariales.jpg?resize=1024%2C576&ssl=1',
+        title: '3 caminhos para se tornar um milionário!',
+        summary:
+          'Neste evento, você descobrirá os segredos dos milionários e aprenderá estratégias comprovadas para aumentar sua renda...',
+        link: 'https://exemplo.com/evento1',
+        datetime: new Date('2024-05-10T12:00:00Z'),
+        address: 'Rua dos Bobos',
+        address_number: '0',
+        address_zip: '00000-000',
+        address_city: 'Cidade do Zeboninho',
+        address_state: 'RJ',
+        address_district: 'Zeboninho',
+        start_time: new Date('2024-05-10T12:00:00Z'),
+        end_time: new Date('2024-05-10T12:30:00Z'),
+        status_meet: 'finished',
+      },
+    });
+    const meet3 = await prisma.meet.create({
+      data: {
+        admin_id,
+        manager_id,
+        image_link:
+          'https://presidenteicguadalajara.com/wp-content/uploads/2022/01/hotel-mas-lujoso-guadalajara-eventos-empresariales.jpg',
+        link: 'https://exemplo.com/evento1',
+        title: '3 caminhos para se tornar um milionário!',
+        summary:
+          'Neste evento, você descobrirá os segredos dos milionários e aprenderá estratégias comprovadas para aumentar sua renda...',
+        datetime: new Date('2024-05-10T12:00:00Z'),
+        address: 'Rua dos Bobos',
+        address_number: '0',
+        address_zip: '00000-000',
+        address_city: 'Cidade do Zeboninho',
+        address_state: 'RJ',
+        address_district: 'Zeboninho',
+        start_time: new Date('2024-05-10T12:00:00Z'),
+        end_time: new Date('2024-05-10T12:30:00Z'),
+        status_meet: 'canceled',
       },
     });
 
-    console.log('Meet created:', meet, '\n');
+    console.log('Meet created:', meet1, '\n', meet2, '\n', meet3, '\n');
   } catch (error) {
     console.error('Got an error:', error);
   } finally {
@@ -77,7 +126,7 @@ async function createMeet() {
 async function createLecture() {
   try {
     const { id } = await prisma.meet.findFirst();
-
+    const { start_time: datetime } = await prisma.meet.findFirst();
     const lecture1 = await prisma.lecture.create({
       data: {
         meet_id: id,
@@ -86,7 +135,7 @@ async function createLecture() {
         speaker_email: 'alan360gabriel@gmail.com',
         title: 'Quem quer dinheiro?',
         description: 'Como fazer aviõezinhos de 100 reais',
-        datetime: new Date('2024-05-10T12:00:00Z'),
+        datetime: datetime,
         status_lecture: 'pending',
       },
     });
@@ -103,8 +152,44 @@ async function createLecture() {
         status_lecture: 'pending',
       },
     });
+    const lecture3 = await prisma.lecture.create({
+      data: {
+        meet_id: id,
+        speaker_name: 'Jeff Bezos',
+        speaker_about: 'Amazon King',
+        speaker_email: 'jeff@bezos.aws',
+        title: 'Start selling today!',
+        description: 'From zero to a million in one year.',
+        datetime: new Date('2024-05-10T12:30:00Z'),
+        status_lecture: 'finished',
+      },
+    });
 
-    console.log('Lectures created:', lecture1, '\n', lecture2, '\n');
+    const lecture4 = await prisma.lecture.create({
+      data: {
+        meet_id: id,
+        speaker_name: 'Jeff Bezos',
+        speaker_about: 'Amazon King',
+        speaker_email: 'jeff@bezos.aws',
+
+        title: 'Start selling today!',
+        description: 'From zero to a million in one year.',
+        datetime: new Date('2024-05-10T12:30:00Z'),
+        status_lecture: 'canceled',
+      },
+    });
+
+    console.log(
+      'Lectures created:',
+      lecture1,
+      '\n',
+      lecture2,
+      '\n',
+      lecture3,
+      '\n',
+      lecture4,
+      '\n',
+    );
   } catch (error) {
     console.error('Got an error:', error);
   } finally {
