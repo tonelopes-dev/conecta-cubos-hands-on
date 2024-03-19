@@ -44,8 +44,7 @@ export class ApiManagerController {
     @Param()
     param: MeetIdParamDto,
   ) {
-    return this.detailMeetByIdService.execute(param.id);
-    const meetDetail = await this.detailMeetByIdService.execute(param);
+    const meetDetail = await this.detailMeetByIdService.execute(param.id);
     console.log(meetDetail);
     return meetDetail;
   }
