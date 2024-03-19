@@ -15,10 +15,7 @@ export class FindMeetsByManagersService {
       });
 
       if (!name) {
-        throw new HttpException(
-          'O organizador não foi encontrado!',
-          HttpStatus.BAD_REQUEST,
-        );
+        return new HttpException('Manager not found!', HttpStatus.BAD_REQUEST);
       }
 
       if (meets.length > 1) {
@@ -41,8 +38,8 @@ export class FindMeetsByManagersService {
         manager: name,
       };
     } catch (error) {
-      throw new HttpException(
-        'Erro inesperado do servidor.',
+      return new HttpException(
+        'Unexpected error.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

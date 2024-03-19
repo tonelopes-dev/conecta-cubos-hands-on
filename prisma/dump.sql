@@ -24,8 +24,8 @@ CREATE TABLE manager (
 
 CREATE TABLE meet (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  admin_id UUID,
-  manager_id UUID,
+  admin_id UUID NOT NULL,
+  manager_id UUID NOT NULL,
   title VARCHAR(255) NOT NULL,
   summary VARCHAR(255) NOT NULL,
   datetime TIMESTAMP NOT NULL,

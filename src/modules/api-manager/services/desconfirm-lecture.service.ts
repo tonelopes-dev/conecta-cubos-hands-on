@@ -18,7 +18,7 @@ export class DesconfirmLectureService {
       });
 
       if (!meet) {
-        throw new HttpException('meet not found.', HttpStatus.NOT_FOUND);
+        return new HttpException('meet not found.', HttpStatus.NOT_FOUND);
       }
 
       const lecture = await this.prisma.lecture.findUnique({
@@ -29,7 +29,7 @@ export class DesconfirmLectureService {
       });
 
       if (!lecture) {
-        throw new HttpException(
+        return new HttpException(
           'This lecture is not registered.',
           HttpStatus.NOT_FOUND,
         );
@@ -58,7 +58,7 @@ export class DesconfirmLectureService {
       });
     } catch (error) {
       console.log(error);
-      throw new HttpException(
+      return new HttpException(
         'Internal Server Error.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

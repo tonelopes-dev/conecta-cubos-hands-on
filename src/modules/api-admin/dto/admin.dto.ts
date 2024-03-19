@@ -1,7 +1,10 @@
 import { IsUUID, IsNotEmpty } from 'class-validator';
 
 export class AdminDto {
+  @IsUUID()
+  @IsNotEmpty()
   id: string;
+
   username: string;
   email: string;
   token: string;

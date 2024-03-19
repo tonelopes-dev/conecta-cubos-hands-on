@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmação de palestra!</title>
+  </head>
+  <body>
+    <h1
+      style="
+        border: solid;
+        border-color: black;
+        background-color: brown;
+        color: aliceblue;
+      "
+    >
+      Evento criado!
+    </h1>
+    <br />
+    <div style='background: #f8f288'>
+        <h3>
+        Olá, <span style="color: blue">{{manager_name}}!</span>!</h3>
+        </br>
+        <h4> Foi criado o evento "{{title}}"" sob sua organização. Veja a seguir os detalhes de acesso: </h4>
+        <br />
+        {{#if image}}
+          <div style="text-align: center;">
+            <img src={{image}} alt="Meet Image" width=450/>
+          </div>
+        {{/if}}
+
+        <ul>
+            <li>Seu token de acesso: {{token}}</li>
+            <li>Id do evento: {{id}}</li>
+            <li>Data: {{datetime}}</li>
+        </ul>
+        <h4> Clique <a href='https://www.google.com.br/search?q=html'>aqui</a> para acessar o evento!<h4>
+    </div>
+  </body>
+  <footer>
+    <p
+      style="
+        border-style: dotted;
+        border-color: black;
+        background-color: blue;
+        flex: 100%;
+        position: fixed;
+        width: 100%;
+        color: azure;
+        text-align: center;
+      "
+    >
+      2024
+    </p>
+  </footer>
+</html>

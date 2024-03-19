@@ -1,4 +1,6 @@
 import {
+  HttpException,
+  HttpStatus,
   Injectable,
   NestMiddleware,
   UnauthorizedException,
@@ -27,26 +29,26 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     try {
-      const isValid = await this.jwtService.verifyAsync(token);
-      //console.log('isValid:', isValid);
+      const decodedToken = await this.jwtService.verifyAsync(token);
+      console.log('decodedToken:', decodedToken);
 
       const admin = await this.prismaService.admin.findUnique({
         where: {
-          id: isValid.id,
+          id: decodedToken.id,
         },
       });
 
       if (admin) {
         const { token: _, ...returnedAdmin } = admin;
         req.body.user = { role: 'admin', ...returnedAdmin };
-        console.log('got a admin');
+        console.log('got a admin:', admin);
 
         return next();
       }
 
       const manager = await this.prismaService.manager.findUnique({
         where: {
-          id: isValid.id,
+          id: decodedToken.id,
         },
       });
 
@@ -54,13 +56,16 @@ export class AuthMiddleware implements NestMiddleware {
         const { token: _, ...returnedManager } = manager;
 
         req.body.user = { role: 'manager', ...returnedManager };
-        console.log('got a manager');
+        console.log('got a manager:', manager);
 
         return next();
       }
     } catch {
       throw new UnauthorizedException();
     }
+
+    req.body.user = { role: 'visitor' };
+    return next();
   }
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers?.authorization?.split(' ') ?? [];
