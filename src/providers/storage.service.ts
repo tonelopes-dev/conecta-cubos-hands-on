@@ -27,7 +27,7 @@ export class StorageService {
   };
 
   // Verify images' address to delete
-  deleteImage = async (path) => {
+  deleteImage = async (path: string) => {
     await this.s3
       .deleteObject({
         Bucket: process.env.S3_BUCKET,

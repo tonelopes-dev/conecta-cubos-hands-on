@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ApiAdminModule } from './modules/api-admin/api-admin.module';
 import { ApiManagerController } from './modules/api-manager/api-manager.controller';
 import { ApiAdminController } from './modules/api-admin/api-admin.controller';
+import { GithubBotModule } from './modules/github-bot/github-bot.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ApiAdminController } from './modules/api-admin/api-admin.controller';
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
     ApiAdminModule,
+    GithubBotModule,
   ],
   controllers: [AppController],
   providers: [PrismaService, AppService],

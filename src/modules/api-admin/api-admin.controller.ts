@@ -64,7 +64,7 @@ export class ApiAdminController {
   createMeet(
     @Param() param: ManagerIdParamDto,
     @Body() createMeetDto: CreateMeetDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.createMeetService.execute(param.id, createMeetDto, file);
   }
