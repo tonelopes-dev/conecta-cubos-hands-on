@@ -8,10 +8,7 @@ import {
   NotFoundException,
   UnauthorizedException,
   Req,
-  Delete,
   Patch,
-  Request,
-  Render,
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
@@ -20,7 +17,16 @@ import { LectureFindService } from './services/lecture-find.service';
 import { LectureCreateService } from './services/lecture-create.service';
 import { LectureCanceledService } from './services/lecture-canceled.service';
 import { FindMeetsService } from './services/show-events.service';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Lecture } from './entities/lecture.entity';
 
+@ApiBearerAuth()
+@ApiTags('lectures')
 @Controller('meet')
 export class LectureController {
   constructor(
@@ -32,11 +38,13 @@ export class LectureController {
 
   @Post('/:meetId/lecture')
   @UseGuards(AuthGuard('github')) // Ative a guarda de autenticação conforme necessário
+  @ApiOperation({ summary: 'Create lecture' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   async createLecture(
     @Param('meetId') meetId: string,
     @Body() lectureDto: CreateLectureDTO,
     @Req() req: any, // Use any para simplificar o acesso ao req.user; considere usar uma interface adequada
-  ) {
+  ): Promise<Lecture> {
     if (!req.user) {
       throw new UnauthorizedException();
     }
@@ -46,12 +54,11 @@ export class LectureController {
       speakerPhotoUrl: req.user.photoUrl,
     };
 
-    const lecture = await this.lectureCreateService.createLecture(
+    return await this.lectureCreateService.createLecture(
       lectureDto,
       meetId,
       userData,
     );
-    return lecture;
   }
 
   @Get('/:meetId/lecture/:lectureId')
@@ -72,15 +79,10 @@ export class LectureController {
     @Param('meetId') meetId: string,
     @Param('lectureId') lectureId: string,
   ) {
-    const lecture = await this.lectureCanceledService.canceledLecture(
-      meetId,
-      lectureId,
-    );
-    return lecture;
+    return await this.lectureCanceledService.canceledLecture(meetId, lectureId);
   }
 
   @Get()
-  @Render('events/events')
   async showEvents() {
     const showEvents = await this.findMeetsService.showMeetsService();
     console.log(showEvents);

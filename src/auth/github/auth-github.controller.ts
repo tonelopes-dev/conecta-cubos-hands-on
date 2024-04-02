@@ -16,6 +16,6 @@ export class AuthController {
   @UseGuards(AuthGuard('github'))
   githubAuthRedirect(@Req() req, @Res() res: Response) {
     // Aqui você pode extrair o usuário do req.user e criar sua lógica de sessão/cookie
-    // res.redirect('/caminho-de-redirecionamento');
+    res.redirect('/caminho-de-redirecionamento');
   }
 }

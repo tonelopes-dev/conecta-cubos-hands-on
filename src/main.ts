@@ -1,29 +1,25 @@
-import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core';
+
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
-import * as exphbs from 'express-handlebars';
-import { Helpers } from './utils/helpers-link';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
+  const config = new DocumentBuilder()
+    .setTitle('Meetup Comunicubos')
+    .setDescription(
+      'This platform will provide students with the necessary means to create, manage and publicize their events efficiently, thus expanding the breadth and impact of the initiatives developed by our academic community.',
+    )
+    .setVersion('1.0')
+    .addTag('API Documentation')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
-  const hbs = exphbs.engine({
-    extname: '.hbs',
-    defaultLayout: 'main',
-    layoutsDir: join(__dirname, '..', 'views/layouts'),
-    partialsDir: join(__dirname, '..', 'views/partials'),
-    helpers: Helpers.registerHelpers(), // Registra os helpers diretamente aqui
-  });
-
-  app.engine('hbs', hbs);
-  app.setViewEngine('hbs');
 
   await app.listen(3000);
 }
