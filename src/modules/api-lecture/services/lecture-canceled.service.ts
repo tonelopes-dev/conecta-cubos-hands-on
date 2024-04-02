@@ -21,8 +21,8 @@ export class LectureCanceledService {
       }
 
       await this.prisma.lecture.update({
-        data: { status_lecture: 'canceled', iscancelled: true },
         where: { id: lectureId, meet_id: meetId },
+        data: { status_lecture: 'CANCELED', iscancelled: true },
       });
 
       return;

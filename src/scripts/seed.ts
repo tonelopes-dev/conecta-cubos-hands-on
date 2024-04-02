@@ -67,7 +67,7 @@ async function createMeet() {
         address_district: 'Zeboninho',
         start_time: new Date('2024-05-10T12:00:00Z'),
         end_time: new Date('2024-05-10T12:30:00Z'),
-        status_meet: 'pending',
+        status_meet: 'PENDING',
       },
     });
     const meet2 = await prisma.meet.create({
@@ -89,7 +89,7 @@ async function createMeet() {
         address_district: 'Zeboninho',
         start_time: new Date('2024-05-10T12:00:00Z'),
         end_time: new Date('2024-05-10T12:30:00Z'),
-        status_meet: 'finished',
+        status_meet: 'FINISHED',
       },
     });
     const meet3 = await prisma.meet.create({
@@ -111,11 +111,44 @@ async function createMeet() {
         address_district: 'Zeboninho',
         start_time: new Date('2024-05-10T12:00:00Z'),
         end_time: new Date('2024-05-10T12:30:00Z'),
-        status_meet: 'canceled',
+        status_meet: 'CANCELED',
       },
     });
 
-    console.log('Meet created:', meet1, '\n', meet2, '\n', meet3, '\n');
+    const meet4 = await prisma.meet.create({
+      data: {
+        admin_id,
+        manager_id,
+        image_link:
+          'https://presidenteicguadalajara.com/wp-content/uploads/2022/01/hotel-mas-lujoso-guadalajara-eventos-empresariales.jpg',
+        link: 'https://exemplo.com/evento1',
+        title: 'Como aumentar seu salário em até 10 vezes',
+        summary:
+          'Neste evento, você descobrirá os segredos dos milionários e aprenderá estratégias comprovadas para aumentar sua renda...',
+        datetime: new Date('2024-05-10T12:00:00Z'),
+        address: 'Rua dos Bobos',
+        address_number: '0',
+        address_zip: '00000-000',
+        address_city: 'Cidade do Zeboninho',
+        address_state: 'RJ',
+        address_district: 'Zeboninho',
+        start_time: new Date('2024-05-10T12:00:00Z'),
+        end_time: new Date('2024-05-10T12:30:00Z'),
+        status_meet: 'CONFIRMED',
+      },
+    });
+
+    console.log(
+      'Meet created:',
+      meet1,
+      '\n',
+      meet2,
+      '\n',
+      meet3,
+      '\n',
+      meet4,
+      '\n',
+    );
   } catch (error) {
     console.error('Got an error:', error);
   } finally {
@@ -136,7 +169,7 @@ async function createLecture() {
         title: 'Quem quer dinheiro?',
         description: 'Como fazer aviõezinhos de 100 reais',
         datetime: datetime,
-        status_lecture: 'pending',
+        status_lecture: 'PENDING',
       },
     });
 
@@ -149,7 +182,7 @@ async function createLecture() {
         title: 'Start selling today!',
         description: 'From zero to a million in one year.',
         datetime: new Date('2024-05-10T12:30:00Z'),
-        status_lecture: 'pending',
+        status_lecture: 'PENDING',
       },
     });
     const lecture3 = await prisma.lecture.create({
@@ -161,7 +194,7 @@ async function createLecture() {
         title: 'Start selling today!',
         description: 'From zero to a million in one year.',
         datetime: new Date('2024-05-10T12:30:00Z'),
-        status_lecture: 'finished',
+        status_lecture: 'FINISHED',
       },
     });
 
@@ -175,7 +208,7 @@ async function createLecture() {
         title: 'Start selling today!',
         description: 'From zero to a million in one year.',
         datetime: new Date('2024-05-10T12:30:00Z'),
-        status_lecture: 'canceled',
+        status_lecture: 'CANCELED',
       },
     });
 

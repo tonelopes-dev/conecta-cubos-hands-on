@@ -29,7 +29,7 @@ export class LectureCreateService {
         throw new HttpException('Event not found.', HttpStatus.NOT_FOUND);
       }
 
-      if (meet.status_meet === 'canceled' || meet.status_meet === 'finished') {
+      if (meet.status_meet === 'CANCELED' || meet.status_meet === 'FINISHED') {
         throw new HttpException(
           'The event has already been completed or cancelled.',
           HttpStatus.BAD_REQUEST,
@@ -84,6 +84,7 @@ export class LectureCreateService {
           datetime: meet.start_time,
           github_id: userData.githubId,
           speaker_photo_url: userData.speakerPhotoUrl,
+          status_lecture: 'PENDING',
           meet: {
             connect: {
               id: meetId,

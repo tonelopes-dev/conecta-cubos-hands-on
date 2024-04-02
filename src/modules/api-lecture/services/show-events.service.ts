@@ -8,11 +8,17 @@ import { PrismaService } from 'src/providers/prisma.service';
 @Injectable()
 export class FindMeetsService {
   constructor(private prisma: PrismaService) {}
+
   async showMeetsService() {
     const events = await this.prisma.meet.findMany();
     if (!events) {
       throw new NotFoundException('Meets not found');
     }
-    return events;
+
+    const eventsConfirmed = events.filter((event) => {
+      return event.status_meet == 'CONFIRMED';
+    });
+
+    return eventsConfirmed;
   }
 }

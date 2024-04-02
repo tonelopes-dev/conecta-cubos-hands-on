@@ -1,9 +1,10 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsString, IsDateString } from 'class-validator';
+
 export enum LectureStatus {
-  Canceled = 'canceled',
-  Pending = 'pending',
-  Confirmed = 'confirmed',
   Finished = 'finished',
+  Confirmed = 'confirmed',
+  Pending = 'pending',
+  Cancelled = 'cancelled',
 }
 
 export class CreateLectureDTO {
@@ -19,6 +20,9 @@ export class CreateLectureDTO {
   @IsString()
   speaker_about: string;
 
+  // Use @IsDateString() se `datetime` deve ser uma data ISO 8601 válida.
+  // Se espera que seja uma string sem validação de formato específico, mantenha @IsString().
+  @IsDateString()
   datetime: string;
 
   @IsString()

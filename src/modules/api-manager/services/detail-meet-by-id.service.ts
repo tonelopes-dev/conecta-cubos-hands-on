@@ -1,7 +1,6 @@
-import { MeetIdParamDto } from '../dto/meetDto';
+// import { MeetIdParamDto } from '../dto/meetDto';
 import { PrismaService } from 'src/providers/prisma.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/providers/prisma.service';
 //import { MeetIdParamDto } from '../dto/meet.dto';
 
 @Injectable()
@@ -10,6 +9,7 @@ export class DetailMeetByIdService {
 
   async execute(id: string) {
     try {
+      // fetch the meet
       const meet = await this.prisma.meet.findFirst({
         where: { id },
       });
@@ -25,7 +25,14 @@ export class DetailMeetByIdService {
         },
       );
 
+      //fetch the lectures of the meet
+
+      const lectures = await this.prisma.lecture.findMany({
+        where: { meet_id: meet.id },
+      });
+
       const preparedMeetData = {
+        id: meet.id,
         title: meet.title,
         summary: meet.summary,
         image_link: meet.image_link,
@@ -36,14 +43,18 @@ export class DetailMeetByIdService {
           ? {
               street: meet.address,
               number: meet.address_number,
-              district: meet.address_district,
+              zipcode: meet.address_zip,
               city: meet.address_city,
+              state: meet.address_state,
+              district: meet.address_district,
+              complement: meet.address_complement,
             }
           : `on-line`,
         link: meet.link,
         start_time: meet.start_time,
         end_time: meet.end_time,
         meet_status: meet.status_meet,
+        lectures: lectures ?? [],
       };
 
       console.log('meet prepared:', preparedMeetData);

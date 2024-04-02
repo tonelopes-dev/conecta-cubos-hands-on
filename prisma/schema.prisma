@@ -7,10 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  FINISHED
+  CONFIRMED
+  PENDING
+  CANCELED
+}
+
 model lecture {
   id           String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   github_id    String? @db.VarChar(255)
-  access_token String? @db.VarChar(255) // Considere medidas de segurança para este campo
+  access_token String? @db.VarChar(255)
 
   meet_id             String    @db.Uuid
   speaker_photo_url   String?   @db.VarChar(255)
@@ -21,7 +28,7 @@ model lecture {
   title               String    @db.VarChar(255)
   description         String    @db.VarChar(255)
   datetime            DateTime? @db.Timestamp(6)
-  status_lecture      status    @default(pending)
+  status_lecture      Status    @default(PENDING)
   created_at          DateTime? @default(now()) @db.Timestamp(6)
   updated_at          DateTime? @db.Timestamp(6)
   iscancelled         Boolean?  @default(false)
@@ -63,7 +70,7 @@ model meet {
   end_time           DateTime  @db.Timestamp(6)
   created_at         DateTime? @default(now()) @db.Timestamp(6)
   updated_at         DateTime? @db.Timestamp(6)
-  status_meet        status    @default(pending)
+  status_meet        Status    @default(PENDING)
   lecture            lecture[]
   admin              admin?    @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   manager            manager?  @relation(fields: [manager_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -76,11 +83,4 @@ model admin {
   token    String    @db.VarChar(255)
   manager  manager[]
   meet     meet[]
-}
-
-enum status {
-  finished
-  confirmed
-  pending
-  canceled
 }

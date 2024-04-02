@@ -12,8 +12,8 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { CreateManagerService } from './services/create-manager.service';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/auth-jwt/roles.guard';
+import { Roles } from 'src/auth/auth-jwt/roles.decorator';
 import {
   CreateManagerDto,
   ManagerIdParamDto,

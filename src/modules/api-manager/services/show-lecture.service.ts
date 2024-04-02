@@ -19,7 +19,7 @@ export class ShowLectureService {
       if (statusLecture) {
         meet = await this.prisma.meet.findUnique({
           where: { id: meetId },
-          select: { lecture: { where: { status_lecture: 'confirmed' } } },
+          select: { lecture: { where: { status_lecture: 'CONFIRMED' } } },
         });
       }
 

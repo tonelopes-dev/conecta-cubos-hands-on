@@ -57,7 +57,7 @@ export class ConfirmLectureService {
       await this.mailService.sendMail(lecture.speaker_email, subject, mail);
 
       await this.prisma.lecture.update({
-        data: { status_lecture: 'confirmed' },
+        data: { status_lecture: 'CONFIRMED' },
         where: { id: lectureId, meet_id: meetId },
       });
     } catch (error) {
