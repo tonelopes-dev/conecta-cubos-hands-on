@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import { urlToHttpOptions } from 'url';
 
 interface Repository {
   name: string;

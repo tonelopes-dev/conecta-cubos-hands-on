@@ -16,7 +16,7 @@ import { ApiLectureModule } from './modules/api-lecture/api-lecture.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    // JwtModule.register({ secret: process.env.JWT_SECRET }),
+    JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
     ApiAdminModule,
     GithubBotModule,
