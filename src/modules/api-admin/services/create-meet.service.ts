@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ManagedUpload } from 'aws-sdk/clients/s3';
 import { readFile } from 'fs/promises';
 import { compile } from 'handlebars';
 import { CreateMeetDto } from 'src/modules/api-manager/dto/meet.dto';
@@ -17,7 +18,7 @@ export class CreateMeetService {
   async execute(
     manager_id: string,
     data: CreateMeetDto,
-    file: Express.Multer.File,
+    file?: Express.Multer.File,
   ) {
     try {
       const meetExists = await this.prismaService.meet.findFirst({
@@ -41,25 +42,41 @@ export class CreateMeetService {
 
       const createdMeet = await this.prismaService.meet.create({
         data: {
-          ...data,
+          title: data.title,
+          summary: data.summary,
+          start_time: data.start_time,
+          end_time: data.end_time,
+          address: data.address,
+          address_zip: data.address_zip,
+          address_city: data.address_city,
+          address_state: data.address_state,
+          address_district: data.address_district,
+          address_complement: data.address_complement,
+          address_number: data.address_number,
           manager_id,
           admin_id: manager.admin_id,
           datetime: new Date(data.datetime),
         },
       });
 
-      //multer
-      const savedImage = await this.storageService.storageImage(
-        createdMeet.id,
-        file.originalname,
-        file.buffer,
-        file.mimetype,
-      );
+      let savedImage: ManagedUpload.SendData = null;
 
-      await this.prismaService.meet.update({
-        where: { id: createdMeet.id },
-        data: { image_link: `${process.env.S3_LINK}${savedImage.Location}` },
-      });
+      if (file) {
+        const key = 'image';
+
+        //multer
+        savedImage = await this.storageService.storageImage(
+          createdMeet.id,
+          key,
+          file.buffer,
+          file.mimetype,
+        );
+
+        await this.prismaService.meet.update({
+          where: { id: createdMeet.id },
+          data: { image_link: `${process.env.S3_LINK}${savedImage.Location}` },
+        });
+      }
 
       const mailTemplate = (
         await readFile('./src/templates/send-manager-meet-data.hbs')

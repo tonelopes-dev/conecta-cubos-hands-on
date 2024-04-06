@@ -9,12 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ApiAdminModule } from './modules/api-admin/api-admin.module';
 import { ApiManagerController } from './modules/api-manager/api-manager.controller';
 import { ApiAdminController } from './modules/api-admin/api-admin.controller';
-// import { JwtModule } from '@nestjs/jwt';
-
+import { GithubBotModule } from './modules/github-bot/github-bot.module';
 import { AuthGihubModule } from './auth/github/auth-github.module';
-
-//import { APP_GUARD } from '@nestjs/core';
-//import { RolesGuard } from './auth/roles.guard';
 import { ApiLectureModule } from './modules/api-lecture/api-lecture.module';
 
 @Module({
@@ -22,6 +18,8 @@ import { ApiLectureModule } from './modules/api-lecture/api-lecture.module';
     ConfigModule.forRoot(),
     // JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
+    ApiAdminModule,
+    GithubBotModule,
 
     AuthGihubModule,
 
@@ -32,6 +30,8 @@ import { ApiLectureModule } from './modules/api-lecture/api-lecture.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(AuthMiddleware).forRoutes(ApiManagerController);
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(ApiManagerController, ApiAdminController);
   }
 }
