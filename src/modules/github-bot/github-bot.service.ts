@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 interface Repository {
   name: string;
@@ -12,6 +13,16 @@ interface Repository {
 @Injectable()
 export class GitHubBotService {
   constructor(private readonly httpService: HttpService) {}
+
+  org = 'conecta-test';
+  tag = 'meet';
+  token = process.env.GITHUB_TOKEN;
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  searchGithubRepos() {
+    console.log('Scanning Github repositories...');
+    this.findTagInRepositories(this.org, this.tag, this.token);
+  }
 
   private async getRepositories(
     org: string,

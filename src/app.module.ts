@@ -12,10 +12,12 @@ import { ApiAdminController } from './modules/api-admin/api-admin.controller';
 import { GithubBotModule } from './modules/github-bot/github-bot.module';
 import { AuthGihubModule } from './auth/github/auth-github.module';
 import { ApiLectureModule } from './modules/api-lecture/api-lecture.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ScheduleModule.forRoot(),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     ApiManagerModule,
     ApiAdminModule,

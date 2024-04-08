@@ -13,7 +13,7 @@ export class DetailMeetByIdService {
       const meet = await this.prisma.meet.findFirst({
         where: { id },
       });
-      console.log('meet found');
+      //console.log('meet found');
 
       if (!meet) {
         return new HttpException('Meet not found!', HttpStatus.BAD_REQUEST);
@@ -24,6 +24,13 @@ export class DetailMeetByIdService {
           where: { id: meet.manager_id },
         },
       );
+
+      if (!email) {
+        return new HttpException(
+          'No meets for the informed manager',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       //fetch the lectures of the meet
 

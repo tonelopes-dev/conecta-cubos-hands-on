@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Query,
-  Render,
   UseGuards,
 } from '@nestjs/common';
 import { MeetIdParamDto } from './dto/meet.dto';
@@ -38,8 +37,7 @@ export class ApiManagerController {
   }
 
   @Get('/meet/detail/:id')
-  // @Roles(['admin', 'manager', 'visitor'])
-  @Render('events/event-detail')
+  @Roles(['admin', 'manager', 'visitor'])
   async detailMeetById(
     @Param()
     param: MeetIdParamDto,
@@ -68,7 +66,7 @@ export class ApiManagerController {
     );
   }
 
-  // @Roles(['admin', 'manager'])
+  @Roles(['admin', 'manager'])
   @Get('/meet/:meetId/lecture')
   async showLectures(
     @Param() param: IParamLecture,

@@ -10,6 +10,13 @@ export class FindMeetsByManagersService {
         where: { manager_id: managerId },
       });
 
+      if (meets.length === 0) {
+        return new HttpException(
+          'Meets not found for informed manager!',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const { name } = await this.prisma.manager.findFirst({
         where: { id: managerId },
       });

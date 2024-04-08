@@ -74,7 +74,7 @@ export class CreateMeetService {
 
         await this.prismaService.meet.update({
           where: { id: createdMeet.id },
-          data: { image_link: `${process.env.S3_LINK}${savedImage.Location}` },
+          data: { image_link: `${savedImage.Location}` },
         });
       }
 
@@ -90,7 +90,7 @@ export class CreateMeetService {
         token: manager.token,
         id: createdMeet.id,
         datetime: createdMeet.datetime,
-        image: `${process.env.S3_LINK}${savedImage.Location}`,
+        image: savedImage ? `${savedImage.Location}` : null,
       };
 
       const mail = compile(mailTemplate)(dynamicVariables);
