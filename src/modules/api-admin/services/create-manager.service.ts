@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateManagerDto } from 'src/modules/api-manager/dto/manager.dto';
 import { sign, verify } from 'jsonwebtoken';
-import { Request } from 'express';
 import { PrismaService } from 'src/providers/prisma.service';
 import { compile } from 'handlebars';
 import { readFile } from 'node:fs/promises';
@@ -14,9 +13,7 @@ export class CreateManagerService {
     private readonly mailerService: MailService,
   ) {}
 
-  async execute(createManagerDto: CreateManagerDto, req: Request) {
-    const { user: admin, ...managerData } = req.body;
-
+  async execute(managerData: CreateManagerDto, adminId: string) {
     try {
       const managerExists = await this.prismaService.manager.findFirst({
         where: { email: managerData.email },
@@ -32,7 +29,7 @@ export class CreateManagerService {
       const manager = await this.prismaService.manager.create({
         data: {
           ...managerData,
-          admin_id: admin.id,
+          admin_id: adminId,
         },
       });
 

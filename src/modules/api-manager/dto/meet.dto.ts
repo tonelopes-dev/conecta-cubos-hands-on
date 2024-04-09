@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
 export class MeetDto {
@@ -70,3 +71,5 @@ export class CreateMeetDto implements Partial<MeetDto> {
   @IsNotEmpty()
   end_time: Date;
 }
+
+export class UpdateMeetDTO extends PartialType(CreateMeetDto) {}

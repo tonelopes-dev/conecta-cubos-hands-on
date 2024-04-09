@@ -44,8 +44,8 @@ export class CreateMeetService {
         data: {
           title: data.title,
           summary: data.summary,
-          start_time: data.start_time,
-          end_time: data.end_time,
+          start_time: new Date(data.start_time),
+          end_time: new Date(data.end_time),
           address: data.address,
           address_zip: data.address_zip,
           address_city: data.address_city,
